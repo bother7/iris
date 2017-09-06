@@ -1,31 +1,95 @@
-requirejs.config({
-  baseUrl: './node_modules/jquery/src',
-  shim: {
-      'jquery.csv': ['jquery'],
-      }
-  })
+// requirejs.config({
+//   baseUrl: './node_modules/jquery/src',
+//   shim: {
+//       'jquery.csv': ['jquery'],
+//       }
+//   })
+// var $ = jQuery = requirejs(['jquery','jquery.csv']);
 
-
-var $ = jQuery = requirejs(['jquery','jquery.csv']);
-var irisarray = $.csv.toArrays(irisdata)
-// requirejs([ './node_modules/jquery/src/jquery.csv']);
+var irisarray = function() {
+  // debugger
+  let finalarray = []
+  let firstsplit = irisdata.split("\n")
+  for (i=0; i<firstsplit.length; i++){
+    let secondarray = []
+    secondarray.push(firstsplit[i].split(',')[0])
+    secondarray.push(firstsplit[i].split(',')[1])
+    secondarray.push(firstsplit[i].split(',')[2])
+    secondarray.push(firstsplit[i].split(',')[3])
+    secondarray.push(firstsplit[i].split(',')[4])
+    finalarray.push(secondarray)
+  }
+  return finalarray
+}()
 
 class Iris {
   constructor (sepal_length, sepal_width, petal_length, petal_width, species){
-    this.sepal_length = sepal_length
-    this.sepal_width = sepal_width
-    this.petal_length = petal_length
-    this.petal_width = petal_width
+    this.slen = sepal_length
+    this.swid = sepal_width
+    this.plen = petal_length
+    this.pwid = petal_width
     this.species = species
-  }
-  parseCSV (){
-    debugger
   }
 }
 
+class IrisLearn {
+  constructor () {
+    this.learningrate = 0.1
+    this.thresholdtop = 10
+    this.thresholdbottom = 1
+  }
 
 
+  initialweights () {
+    if (!this.weights){
+      this.weights = []
+      for (i=0; i<4; i++){
+        this.weights.push(Math.random())
+      }
+      //bias of 1
+      this.weights.push(1)
+    }
+  }
 
+
+  evaluate (iris) {
+    let value = iris.slen*this.weights[0] + iris.swid*this.weights[1] + iris.plen*this.weights[2] + iris.pwid*this.weights[3] + this.weights[4]
+    expectedoutcome = predict(value)
+    if (iris.species !== flower(expectedoutcome)) {
+      shiftweights(expectedoutcome)
+    }
+  }
+
+
+// range of results
+  predict (num) {
+    if (num > this.thresholdtop) {
+      return 2
+    }
+    else if (num < this.thresholdtop && num > this.thresholdbottom) {
+      return 1
+    }
+    else {
+      return 0
+    }
+  }
+
+  shiftweights (result) {
+
+  }
+
+  flower (num) {
+    if num === 2 {
+      return "setosa"
+    }
+    else if num === 1 {
+      return "versicolor"
+    } else {
+      return "virginica"
+    }
+  }
+
+}
 
 
 

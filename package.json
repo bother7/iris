@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/bother7/iris#readme",
   "dependencies": {
-    "jquery": "^3.2.1"
+    "jquery": "^3.2.1",
+    "server": "^1.0.0-beta.1"
   }
 }
